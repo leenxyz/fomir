@@ -7,6 +7,7 @@ import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 import { ConnectButton } from './ConnectButton'
 import { ClientOnly } from './ClientOnly'
+import { UserProfile } from './UserProfile'
 
 const Header = () => {
   let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
