@@ -35,6 +35,9 @@ dependencies:
   body-scroll-lock:
     specifier: ^4.0.0-beta.0
     version: 4.0.0-beta.0
+  clsx:
+    specifier: ^2.1.1
+    version: 2.1.1
   contentlayer2:
     specifier: 0.5.1
     version: 0.5.1(esbuild@0.20.2)
@@ -107,6 +110,9 @@ dependencies:
   remark-math:
     specifier: ^6.0.0
     version: 6.0.0
+  tailwind-merge:
+    specifier: ^2.5.3
+    version: 2.5.3
   tailwindcss:
     specifier: ^3.4.3
     version: 3.4.13
@@ -6372,6 +6378,11 @@ packages:
 
   /clsx@1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
+  /clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
     dev: false
 
@@ -13216,6 +13227,10 @@ packages:
   /system-architecture@0.1.0:
     resolution: {integrity: sha512-ulAk51I9UVUyJgxlv9M6lFot2WP3e7t8Kz9+IS6D4rVba1tR9kON+Ey69f+1R4Q8cd45Lod6a4IcJIxnzGc/zA==}
     engines: {node: '>=18'}
+    dev: false
+
+  /tailwind-merge@2.5.3:
+    resolution: {integrity: sha512-d9ZolCAIzom1nf/5p4LdD5zvjmgSxY0BGgdSvmXIoMYAiPdAW/dSpP7joCDYFY7r/HkEa2qmPtkgsu0xjQeQtw==}
     dev: false
 
   /tailwindcss@3.4.13:
