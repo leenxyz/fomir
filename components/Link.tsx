@@ -7,7 +7,10 @@ const CustomLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnch
   const isInternalLink = href && href.startsWith('/')
   const isAnchorLink = href && href.startsWith('#')
 
+  const isProd = process.env.NODE_ENV === 'production'
+
   if (isInternalLink) {
+    if (isProd) href = href + '.html'
     return <Link className="break-words" href={href} {...rest} />
   }
 
