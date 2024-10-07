@@ -22,4 +22,4 @@ export const wagmiAdapter = new WagmiAdapter({
   networks,
 })
 
-export const config = wagmiAdapter.wagmiConfig
+export const wagmiConfig = wagmiAdapter.wagmiConfig
