@@ -1,102 +1,50 @@
-const { withContentlayer } = require('next-contentlayer2')
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
-// You might need to insert additional domains in script-src if you are using external services
-const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is;
-  style-src 'self' 'unsafe-inline';
-  img-src * blob: data:;
-  media-src *.s3.amazonaws.com;
-  connect-src *;
-  font-src 'self';
-  frame-src giscus.app
-`
-
-const securityHeaders = [
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-  {
-    key: 'Content-Security-Policy',
-    value: ContentSecurityPolicy.replace(/\n/g, ''),
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-  {
-    key: 'Referrer-Policy',
-    value: 'strict-origin-when-cross-origin',
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-  {
-    key: 'X-Frame-Options',
-    value: 'DENY',
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff',
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
-  {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on',
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-  {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains',
-  },
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
-  {
-    key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
-  },
-]
-
-const output = process.env.EXPORT ? 'export' : undefined
-const basePath = process.env.BASE_PATH || undefined
-const unoptimized = process.env.UNOPTIMIZED ? true : undefined
+const { env } = require('./server/env')
 
 /**
- * @type {import('next/dist/next-server/server/config').NextConfig}
- **/
-module.exports = () => {
-  const plugins = [withContentlayer, withBundleAnalyzer]
-  return plugins.reduce((acc, next) => next(acc), {
-    output,
-    basePath,
-    reactStrictMode: true,
-    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts'],
+ * @type {import('next').NextConfig}
+ */
+module.exports = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['app.localhost:3000'],
     },
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'picsum.photos',
-        },
-      ],
-      unoptimized,
-    },
-    async headers() {
-      return [
-        {
-          source: '/(.*)',
-          headers: securityHeaders,
-        },
-      ]
-    },
-    webpack: (config, options) => {
-      config.module.rules.push({
-        test: /\.svg$/,
-        use: ['@svgr/webpack'],
-      })
+  },
 
-      config.externals.push('pino-pretty', 'lokijs', 'encoding')
+  /**
+   * Dynamic configuration available for the browser and server.
+   * Note: requires `ssr: true` or a `getInitialProps` in `_app.tsx`
+   * @link https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration
+   */
+  publicRuntimeConfig: {
+    NODE_ENV: env.NODE_ENV,
+  },
+  transpilePackages: ['react-tweet'],
 
-      return config
-    },
-  })
+  images: {
+    remotePatterns: [
+      { hostname: 'public.blob.vercel-storage.com' },
+      { hostname: '2cil7amusloluyl8.public.blob.vercel-storage.com' },
+      { hostname: '*.public.blob.vercel-storage.com' },
+      { hostname: 'res.cloudinary.com' },
+      { hostname: 'abs.twimg.com' },
+      { hostname: 'pbs.twimg.com' },
+      { hostname: 'avatar.vercel.sh' },
+      { hostname: 'avatars.githubusercontent.com' },
+      { hostname: 'www.google.com' },
+      { hostname: 'flag.vercel.app' },
+      { hostname: 'illustrations.popsy.co' },
+    ],
+  },
+  webpack: (config, { isServer }) => {
+    // https://stackoverflow.com/questions/64926174/module-not-found-cant-resolve-fs-in-next-js-application
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+    }
+
+    config.externals.push('pino-pretty', 'lokijs', 'encoding', 'bcrypt')
+
+    return config
+  },
 }

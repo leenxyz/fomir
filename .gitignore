@@ -4,10 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/.yarn/*
-!/.yarn/releases
-!/.yarn/plugins
-!/.yarn/sdks
+/.yarn
 
 # testing
 /coverage
@@ -15,33 +12,27 @@
 # next.js
 /.next/
 /out/
-public/sitemap.xml
-.vercel
 
 # production
 /build
-*.xml
-
-# rss feed
-/public/feed.xml
-
-# search
-/public/search.json
 
 # misc
 .DS_Store
+*.pem
 
 # debug
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+.env
+!.env*.example
 
-# Contentlayer
-.contentlayer
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo

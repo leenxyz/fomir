@@ -1,5 +1,3 @@
-'use client'
-
 import React, { PropsWithChildren, useEffect, useState } from 'react'
 
 export function ClientOnly({ children }: PropsWithChildren) {
